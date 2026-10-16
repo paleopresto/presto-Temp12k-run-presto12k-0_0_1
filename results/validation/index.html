@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>Temperature 12k Validation</title>
+<style>
+  :root { --accent: #4682b4; --bg: #f7f8fa; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 1180px; margin: 0 auto; padding: 24px; color: #1a1a1a; background: var(--bg); }
+  h1 { border-bottom: 3px solid var(--accent); padding-bottom: 12px; font-size: 1.8rem; }
+  h2 { color: #374151; margin-top: 36px; font-size: 1.3rem; border-left: 4px solid var(--accent); padding-left: 12px; }
+  h3 { color: #374151; margin-top: 24px; font-size: 1.05rem; }
+  p  { line-height: 1.6; color: #4b5563; }
+  table { border-collapse: collapse; margin: 16px 0; width: 100%; background: white;
+           border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+           font-size: 0.92rem; }
+  th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+  th { background: #f3f4f6; font-weight: 600; font-size: 0.78rem;
+        text-transform: uppercase; letter-spacing: 0.03em; color: #6b7280; }
+  img { max-width: 100%; margin: 8px 0 20px; border: 1px solid #e5e7eb;
+         border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                  gap: 16px; margin: 16px 0; }
+  .metric-card { background: white; padding: 16px; border-radius: 8px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-align: center; }
+  .metric-card .value { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .metric-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+  code { background: #eef1f4; padding: 1px 6px; border-radius: 3px; font-size: 0.9em; }
+  .note { font-size: 0.85rem; color: #6b7280; }
+  .back { margin-top: 32px; }
+</style>
+</head>
+<body>
+<h1>Temperature 12k Validation Report</h1>
+<p>Validation of this multi-method composite reconstruction against the
+   <strong>published Kaufman et al. (2020) Temperature 12k</strong> curves
+   (<a href="https://doi.org/10.1038/s41597-020-0530-7">doi:10.1038/s41597-020-0530-7</a>),
+   bundled from the NOAA archive under <code>reference_data/published/</code>.
+   Both curves are anchored to 0 at 100 yr BP (NOAA archival convention) and
+   metrics computed on <em>absolute</em> anomalies so amplitude and offset
+   errors are visible — unlike r/CE on recentered series, which hide them.</p>
+
+<div class="metric-grid">
+    <div class="metric-card">
+      <div class="value">0.986</div>
+      <div class="label">Consensus R vs published</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">0.175</div>
+      <div class="label">Consensus maxΔ (°C)</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">1.02</div>
+      <div class="label">Consensus amplitude (mine/pub)</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">1.08</div>
+      <div class="label">Consensus envelope ratio</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">0.422 °C</div>
+      <div class="label">Consensus mid-Holocene (mine)</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">0.505 °C</div>
+      <div class="label">Consensus mid-Holocene (published)</div>
+    </div>
+</div>
+
+<h2>Validation metrics</h2>
+<p>Per-method and consensus comparison against the published curves. Both
+   anchored to 0 at 100 yr BP. <code>n pts</code> ages 0–12 ka common to both.
+   <strong>r</strong>: Pearson correlation of anchored medians.
+   <strong>bias / RMSE / maxΔ</strong>: of (mine − published), °C.
+   <strong>amp</strong>: std(mine)/std(pub) — 1.0 = matched amplitude.
+   <strong>midHol</strong>: mean over 5.5–6.5 ka — mine | published | paper Table 1.
+   <strong>12 ka</strong>: mean over 11.5–12 ka — mine | published.
+   <strong>spread</strong>: mean(q95−q05) mine/published — 1.0 = matched uncertainty.
+   <strong>flat</strong>: longest run of identical consecutive median values (clipping flag).</p>
+
+<table>
+  <tr><th>Method</th><th>r</th><th>bias</th><th>RMSE</th><th>maxΔ</th><th>amp</th>
+      <th>midHol (m | p | T1)</th><th>12 ka (m | p)</th><th>spread</th><th>flat</th></tr>
+    <tr>
+      <td><strong>SCC</strong></td>
+      <td>0.982</td>
+      <td>-0.085</td>
+      <td>0.102</td>
+      <td>0.194</td>
+      <td>1.01</td>
+      <td>0.35 | 0.49 | 0.50</td>
+      <td>-0.88 | -0.77</td>
+      <td>0.94</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><strong>DCC</strong></td>
+      <td>0.990</td>
+      <td>-0.032</td>
+      <td>0.054</td>
+      <td>0.125</td>
+      <td>1.00</td>
+      <td>0.43 | 0.50 | 0.50</td>
+      <td>-0.79 | -0.77</td>
+      <td>0.92</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><strong>GAM</strong></td>
+      <td>0.965</td>
+      <td>-0.101</td>
+      <td>0.121</td>
+      <td>0.278</td>
+      <td>1.11</td>
+      <td>0.31 | 0.45 | 0.44</td>
+      <td>-0.81 | -0.70</td>
+      <td>0.92</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><strong>CPS</strong></td>
+      <td>0.994</td>
+      <td>+0.040</td>
+      <td>0.126</td>
+      <td>0.312</td>
+      <td>1.02</td>
+      <td>1.11 | 1.09 | 1.08</td>
+      <td>-3.25 | -3.36</td>
+      <td>1.04</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><strong>PaiCo</strong></td>
+      <td>0.987</td>
+      <td>-0.028</td>
+      <td>0.069</td>
+      <td>0.179</td>
+      <td>1.14</td>
+      <td>0.40 | 0.42 | 0.42</td>
+      <td>-0.87 | -0.72</td>
+      <td>1.02</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><strong>Consensus</strong></td>
+      <td>0.986</td>
+      <td>-0.048</td>
+      <td>0.072</td>
+      <td>0.175</td>
+      <td>1.02</td>
+      <td>0.42 | 0.51 | 0.70</td>
+      <td>-0.89 | -0.83</td>
+      <td>1.08</td>
+      <td>1</td>
+    </tr>
+</table>
+
+<h2>Per-method overlays</h2>
+<p>Reconstruction (coloured line + shaded 5–95% spread) vs published curve
+   (dotted + grey shaded). X-axis: oldest age left, present right.</p>
+  <h3>SCC</h3>
+  <img src="method_scc.png" alt="scc overlay">
+  <h3>DCC</h3>
+  <img src="method_dcc.png" alt="dcc overlay">
+  <h3>GAM</h3>
+  <img src="method_gam.png" alt="gam overlay">
+  <h3>CPS</h3>
+  <img src="method_cps.png" alt="cps overlay">
+  <h3>PAICO</h3>
+  <img src="method_paico.png" alt="paico overlay">
+  <h3>Consensus</h3>
+  <img src="method_consensus.png" alt="consensus overlay">
+
+<h2>Combined overlay</h2>
+<img src="gmst_validation.png" alt="Combined GMST overlay">
+
+<p class="note">Pooled multi-method ensemble: 2,500 members. Age range
+   in the comparison: 0–12,000 yr BP.</p>
+<p class="back"><a href="../index.html">&larr; Back to results</a></p>
+</body></html>
